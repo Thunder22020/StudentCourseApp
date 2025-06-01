@@ -3,8 +3,6 @@ package com.app.studentcourse.dto;
 import com.app.studentcourse.entity.Course;
 import com.app.studentcourse.entity.Student;
 
-import java.util.stream.Collectors;
-
 public class ConverterDTO {
     public static CourseDTO convertToDTO(Course course) {
         CourseDTO courseDTO = new CourseDTO();
@@ -20,7 +18,6 @@ public class ConverterDTO {
         studentDTO.setAge(student.getAge());
         studentDTO.setId(student.getId());
         studentDTO.setCourses(student.getCourses().stream().map(ConverterDTO::convertToShortDTO).toList());
-        System.out.println(studentDTO.getAge());
         return studentDTO;
     }
 

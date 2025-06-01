@@ -3,7 +3,6 @@ package com.app.studentcourse.service;
 import com.app.studentcourse.dto.ConverterDTO;
 import com.app.studentcourse.dto.CourseDTO;
 import com.app.studentcourse.dto.CourseShortDTO;
-import com.app.studentcourse.dto.StudentShortDTO;
 import com.app.studentcourse.entity.Course;
 import com.app.studentcourse.entity.Student;
 import com.app.studentcourse.repository.CourseRepository;
@@ -30,8 +29,25 @@ public class StudentService {
     }
 
     public Student create(Student student) {
+        if (student.getCourses() != null && !student.getCourses().isEmpty()) {
+            List<Course> coursesFromDb = student.getCourses().stream()
+                    .map(course -> courseRepository.findById(course.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Курс с id " + course.getId() + " не найден")))
+                    .toList();
+
+            for (Course course : coursesFromDb) {
+                if (course.getStudents() == null) {
+                    course.setStudents(new ArrayList<>());
+                }
+                course.getStudents().add(student);
+            }
+
+            student.setCourses(coursesFromDb);
+        }
+
         return studentRepository.save(student);
     }
+
 
     public Student update(Student student) {
         return studentRepository.save(student);

@@ -40,8 +40,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> create(@RequestBody Course course) {
-        return new ResponseEntity<>(courseService.create(course), HttpStatus.CREATED);
+    public ResponseEntity<CourseDTO> create(@RequestBody Course course) {
+        return new ResponseEntity<>(ConverterDTO.convertToDTO(courseService.create(course)), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/students")

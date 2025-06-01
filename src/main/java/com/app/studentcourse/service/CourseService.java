@@ -31,8 +31,22 @@ public class CourseService {
     }
 
     public Course create(Course course) {
-        return courseRepository.save(course);
+        List<Student> studentsFromDb = course.getStudents().stream()
+                .map(student -> studentRepository.findById(student.getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Студент с id " + student.getId() + " не найден")))
+                .toList();
+
+        course.setStudents(studentsFromDb);
+
+        for (Student student : studentsFromDb) {
+            student.getCourses().add(course);
+        }
+
+        Course savedCourse = courseRepository.save(course);
+        studentRepository.saveAll(studentsFromDb);
+        return savedCourse;
     }
+
 
     public Course update(Course course) {
         return courseRepository.save(course);
@@ -76,6 +90,5 @@ public class CourseService {
         course.getStudents().addAll(studentList);
         courseRepository.save(course);
         studentRepository.saveAll(studentList);
-        // todo: mirror this in StudentService
     }
 }
