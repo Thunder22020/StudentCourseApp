@@ -2,6 +2,7 @@ package com.app.studentcourse.controller;
 
 import com.app.studentcourse.dto.ConverterDTO;
 import com.app.studentcourse.dto.CourseDTO;
+import com.app.studentcourse.dto.CourseShortDTO;
 import com.app.studentcourse.dto.StudentDTO;
 import com.app.studentcourse.entity.Course;
 import com.app.studentcourse.entity.Student;
@@ -43,7 +44,7 @@ public class StudentController {
     }
 
     @PostMapping("/{id}/courses")
-    public HttpStatus createCourse(@PathVariable Long id, @RequestBody List<Course> courses) {
+    public HttpStatus createCourse(@PathVariable Long id, @RequestBody List<CourseShortDTO> courses) {
         studentService.addCoursesToStudent(id, courses);
         return HttpStatus.OK;
     }

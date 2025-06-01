@@ -48,8 +48,6 @@ public class CourseController {
     public HttpStatus addStudentsToCourse(@PathVariable Long id, @RequestBody List<StudentShortDTO> students) {
         courseService.addStudentsToCourse(id, students);
         return HttpStatus.CREATED;
-        //todo: нужно чтобы метода принимал сокращенные версии студентов, а не полные
-        // для этого надо переписать сервис
     }
 
     @PutMapping

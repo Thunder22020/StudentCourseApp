@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseShortDTO {
-    String name;
+    private String name;
+    private Long id;
 }

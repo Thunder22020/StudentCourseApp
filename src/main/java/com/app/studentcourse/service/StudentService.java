@@ -2,19 +2,24 @@ package com.app.studentcourse.service;
 
 import com.app.studentcourse.dto.ConverterDTO;
 import com.app.studentcourse.dto.CourseDTO;
+import com.app.studentcourse.dto.CourseShortDTO;
+import com.app.studentcourse.dto.StudentShortDTO;
 import com.app.studentcourse.entity.Course;
 import com.app.studentcourse.entity.Student;
+import com.app.studentcourse.repository.CourseRepository;
 import com.app.studentcourse.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class StudentService {
     private StudentRepository studentRepository;
+    private CourseRepository courseRepository;
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
@@ -54,9 +59,17 @@ public class StudentService {
         studentRepository.save(student);
     }
 
-    public void addCoursesToStudent(Long studentId, List<Course> courses) {
+    public void addCoursesToStudent(Long studentId, List<CourseShortDTO> courses) {
         Student student = getStudentById(studentId);
-        student.getCourses().addAll(courses);
+        List<Course> courseList = new ArrayList<>();
+        for (CourseShortDTO course : courses) {
+            courseList.add(courseRepository.findAll().stream()
+                    .filter(i->i.getName().equals(course.getName()))
+                    .findAny()
+                    .orElse(null));
+        }
+        student.getCourses().addAll(courseList);
         studentRepository.save(student);
+        courseRepository.saveAll(courseList);
     }
 }
