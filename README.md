@@ -39,7 +39,7 @@ src
 ```
 ## Example requests
 
-- *POST: localhost:8080/students* - сохраняет студента в базу данных с возможностью сразу указать существующие курсы
+- *POST: localhost:8080/students* - saves student to db with opportunity to add his courses
 ```
 {
     "name": "student1",
@@ -58,7 +58,7 @@ Response:
 }
 ```
 
-- *POST: localhost:8080/courses*  - сохраняет курс в базу данных с возможностью сразу указать существующих студентов
+- *POST: localhost:8080/courses*  - saves courses to db with opportunity to add its students
 ```
 {
     "name": "Math",
@@ -87,7 +87,7 @@ Response:
 }
 ```
 
-- *GET: localhost:8080/students* - возвращает всех студентов
+- *GET: localhost:8080/students* - reads all students
 
 Response:
 ```
@@ -107,7 +107,7 @@ Response:
 ]
 ```
 
-- *DELETE: localhost:8080/students/{id}* - удаляет студента по id
+- *DELETE: localhost:8080/students/{id}* - deletes student by id
 
 Request: `localhost:8080/students/1`
 
